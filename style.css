@@ -1,0 +1,28 @@
+body{font-family:Verdana; font-size:11px;}
+input[type=number]{width: 3em;}
+.container{
+	display: flexbox;
+	display: -webkit-flex;
+	flex-direction: row;
+	flex-direction: row;
+}
+.setup{
+	flex:1;
+	-webkit-flex: 1;
+}
+.progress{
+	flex:1;
+	-webkit-flex: 1;
+}
+.display{
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+}
+.render{
+	line-height: 2em;
+}
+.time{font-size: 400%;}
+.warmup, .cooldown{ background-color: #ccc;}
+.display{font-size: 2em; text-align:center;}
+.high{background-color: red;}
+.low{background-color: green;}
