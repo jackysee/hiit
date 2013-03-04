@@ -1,45 +1,83 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="hiit">
 <head>
 	<meta charset="UTF-8">
 	<title>HIIT</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="style.css">
 	<script src="angular.js"></script>
+	<script src="localStorageModule.js"></script>
 	<script src="app.js"></script>
 </head>
 <body ng-controller="App">
 
-	<div class='container'>
-
-		<fieldset class="setup">
-			<legend>Setup</legend>
-			Warmup for <input type="number" size="3" min="0" ng-model="setup.warmup" />s<br>
-			Repeat <input type="number" size="3" ng-model="setup.repeat" min="0" /> intervals, for each interval:<br>
-			- do high intensity for <input type="number" size="3" min="0" ng-model="setup.high"/><br>
-			- do low intensity for <input type="number" size="3" min="0" ng-model="setup.low"/><br>
-			Cool down for <input type="number" size="3" min="0" ng-model="setup.cooldown"/>
-		</fieldset>
-		<fieldset class="progress" ng-show="plan.progress.length">
-			<legend>Progress</legend>
-			<div class="render">
-				<span ng-repeat="p in plan.progress">
-					{{p.title}}: <progress value="{{p.value}}" max="{{p.max}}"></progress>
-					<br ng-show="$first || $last || $index%2==0"/>
-				</span>
-				<div>
-					Total time: {{plan.count}}/{{plan.total}}s
-				</div>
-			</div>
-		</fieldset>
-	</div>
-	<div class="plan">
-		<div class="display {{plan.current.type}}" ng-show="plan.current">
-			<div class="stage">{{plan.current.title}}</div>
-			<div class="time">{{plan.current.value}}/{{plan.current.max}}s</div>
+	<div class="navbar navbar-inverse navbar-static-top">
+		<div class="navbar-inner">
+			<a class="brand" href="#">HIIT</a>
 		</div>
-		<div class="control">
-			<button ng-click="start()" ng-disabled="plan.current">Start</button>
-			<button ng-click="clear()">Clear</button>
+	</div>
+
+	<div class='pg-container'>
+
+		<div class="pg-config">
+			<fieldset class="settings" ng-show="settings.length">
+				<legend class="settings-title">Saved settings</legend>
+				<button class="btn btn-small setting-btn" ng-repeat="s in settings" ng-click="load($index)">{{s.name}} <i class="icon-remove-circle" ng-click="remove($index)"></i></button>
+				<!--
+				<ul class="nav nav-list">
+					<li ng-repeat="s in settings">
+						<a href='#' ng-click="load($index)">
+							{{s.name}}
+						</a>
+						<a href="#" ng-click="remove($index)">
+							<i class="icon-minus-sign-right"></i>
+						</a>
+					</li>
+				</ul>
+				<div>
+					<button class="btn" ng-click="clearAll()">Clear all</button>
+				</div>
+				-->
+			</fieldset>
+			<fieldset class="setup">
+				<legend>Setup</legend>
+				<div>
+					Warm up for <input type="number" size="3" min="0" ng-model="setup.warmup" />s<br>
+					Repeat <input type="number" size="3" ng-model="setup.repeat" min="0" /> intervals, for each interval:<br>
+					- do high intensity for <input type="number" size="3" min="0" ng-model="setup.high"/><br>
+					- do low intensity for <input type="number" size="3" min="0" ng-model="setup.low"/><br>
+					Cool down for <input type="number" size="3" min="0" ng-model="setup.cooldown"/><br>
+				</div>
+				<button class="btn" ng-click="save()">Save current settings</button>
+			</fieldset>
+		</div>
+
+		<div class="pg-plan" ng-show="plan.total>0">
+			<div class="display" ng-hide="plan.current">
+				Ready
+			</div>
+			<div class="display {{plan.current.type}}" ng-show="plan.current">
+				<div class="stage">{{plan.current.title}}</div>
+				<div class="time">{{plan.current.value}}/{{plan.current.max}}s</div>
+			</div>
+			<div class="control">
+				<button class="btn" ng-click="start()" ng-disabled="plan.current">Start</button>
+				<button class="btn" ng-click="clear()">Clear</button>
+			</div>
+		</div>
+
+		<div class="pg-progress">
+			<fieldset ng-show="plan.progress.length">
+				<legend>Progress</legend>
+				<div class="render">
+					<span ng-repeat="p in plan.progress">
+						{{p.title}}: <progress value="{{p.value}}" max="{{p.max}}"></progress><br>
+					</span>
+					<div>
+						Total time: {{plan.count}}/{{plan.total}}s
+					</div>
+				</div>
+			</fieldset>
 		</div>
 	</div>
 </body>

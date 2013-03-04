@@ -1,34 +1,71 @@
 body{font-family:Verdana; font-size:11px;}
 input[type=number]{width: 3em;}
-.container{
+
+
+/*
+.settings ul{
+	padding-left: 1.5em;
+	list-style-type: circle;
+	margin: 1em 0 0 0;
+}
+.settings li{
+	word-wrap: break-word;
+}
+.settings .remove, .settings .clear{
+	float: right;
+	text-align: right;
+}
+*/
+
+.settings{
+	margin-bottom: 1em;
+}
+
+.pg-container{
 	display: flexbox;
 	display: -webkit-flex;
 	flex-direction: row;
-	flex-direction: row;
+	margin: 1em;
 }
-.setup{
+.pg-config{
+	flex:1;
+	-webkit-flex:15;
+}
+.pg-progress{
+	flex:1;
+	-webkit-flex: 10;
+}
+.pg-plan{
 	flex:1;
 	-webkit-flex: 25;
-}
-.progress{
-	flex:1;
-	-webkit-flex: 14;
+	padding: 3px;
 }
 .display{
 	flex-wrap: wrap;
 	-webkit-flex-wrap: wrap;
+	padding: 4em;
 }
+
+.icon-remove-circle{
+	margin-left: 10px;
+}
+.setting-btn{
+	padding-right: 5px;
+}
+
+
 .control{
 	text-align:center;
 }
+/*
 .control button{
 	font-size: 200%;
 }
 .render{
-	line-height: 2em;
 }
+*/
 .time{font-size: 400%;}
-.warmup, .cooldown{ background-color: #ccc;}
+.warmup, .cooldown{ background-color: #CDCDCD;}
 .display{font-size: 2em; text-align:center;}
 .high{background-color: red;}
 .low{background-color: green;}

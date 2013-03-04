@@ -1,4 +1,4 @@
-function App($scope){
+function App($scope, localStorageService){
 
 	$scope.setup = {
 		warmup: 180,
@@ -8,6 +8,8 @@ function App($scope){
 		cooldown: 180
 	};
 
+	$scope.settings = JSON.parse(localStorageService.get('settings')) || [];
+
 	$scope.plan = {
 		count: 0, total:0,
 		progress: []
@@ -15,19 +17,52 @@ function App($scope){
 
 	$scope.$watch('setup', function(setup){
 		var progress = [], total = 0;
-		progress.push({title:'Warmup', max:setup.warmup, value:0, start:1, end: setup.warmup, type:'warmup'});
-		total += setup.warmup;
+		if(setup.warmup > 0){
+			progress.push({title:'Warm up', max:setup.warmup, value:0, start:1, end: setup.warmup, type:'warmup'});
+			total += setup.warmup;
+		}
 		for(var i=0; i<setup.repeat; i++){
 			progress.push({title:'High', max:setup.high, value:0, start:total+1, end:total+setup.high, type:'high'});
 			total += setup.high;
 			progress.push({title:'Low', max:setup.low, value:0, start:total+1, end:total+setup.low, type:'low'});
 			total += setup.low;
 		}
-		progress.push({title:'Cooldown', max:setup.cooldown, value:0, start:total+1, end:total+setup.cooldown, type:'cooldown'});
-		total += setup.cooldown;
+		if(setup.cooldown > 0){
+			progress.push({title:'Cool down', max:setup.cooldown, value:0, start:total+1, end:total+setup.cooldown, type:'cooldown'});
+			total += setup.cooldown;
+		}
 		$scope.plan = {count:0, total:total, progress:progress};
 	}, true);
 
+	$scope.save = function(){
+		var name = prompt("Input a name for this setting:");
+		if(!name){
+			alert("Please input a name");
+			return;
+		}
+		$scope.settings.push({name:name, setup: angular.copy($scope.setup)});
+		localStorageService.add("settings", JSON.stringify($scope.settings));
+	};
+
+	$scope.load = function(index){
+		$scope.setup = angular.copy($scope.settings[index].setup);
+	};
+
+	$scope.remove = function(index){
+		var newSettings = [];
+		angular.forEach($scope.settings, function(s, i){
+			if(index !== i){
+				newSettings.push(angular.copy(s));
+			}
+		});
+		$scope.settings = newSettings;
+		localStorageService.add("settings", JSON.stringify($scope.settings));
+	};
+
+	$scope.clearAll = function(){
+		localStorageService.remove('settings');
+		$scope.settings = [];
+	};
 
 	$scope.start = function(){
 		$scope.plan.count = 0;
