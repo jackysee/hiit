@@ -28,22 +28,37 @@ input[type=number]{width: 3em;}
 	margin: 1em;
 }
 .pg-config{
-	flex:1;
+	flex:15;
 	-webkit-flex:15;
 }
 .pg-progress{
-	flex:1;
+	flex:10;
 	-webkit-flex: 10;
 }
 .pg-plan{
-	flex:1;
+	flex:25;
 	-webkit-flex: 25;
 	padding: 3px;
+	min-height: 500px;
+
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+	box-align: center;
 }
 .display{
-	flex-wrap: wrap;
-	-webkit-flex-wrap: wrap;
 	padding: 4em;
+	line-height: 2.5em;
 }
 
 .icon-remove-circle{
@@ -64,7 +79,7 @@ input[type=number]{width: 3em;}
 .render{
 }
 */
-.time{font-size: 400%;}
+.time{font-size: 300%;}
 .warmup, .cooldown{ background-color: #CDCDCD;}
 .display{font-size: 2em; text-align:center;}
 .high{background-color: red;}

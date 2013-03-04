@@ -54,15 +54,14 @@
 
 		<div class="pg-plan" ng-show="plan.total>0">
 			<div class="display" ng-hide="plan.current">
-				Ready
+				<button class="btn" ng-click="start()" ng-disabled="plan.current">Start</button>
 			</div>
 			<div class="display {{plan.current.type}}" ng-show="plan.current">
 				<div class="stage">{{plan.current.title}}</div>
 				<div class="time">{{plan.current.value}}/{{plan.current.max}}s</div>
-			</div>
-			<div class="control">
-				<button class="btn" ng-click="start()" ng-disabled="plan.current">Start</button>
-				<button class="btn" ng-click="clear()">Clear</button>
+				<div class="control">
+					<button class="btn" ng-click="clear()">Clear</button>
+				</div>
 			</div>
 		</div>
 
