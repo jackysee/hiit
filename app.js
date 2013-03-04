@@ -16,6 +16,7 @@ function App($scope, localStorageService){
 	};
 
 	$scope.$watch('setup', function(setup){
+		$scope.clear();
 		var progress = [], total = 0;
 		if(setup.warmup > 0){
 			progress.push({title:'Warm up', max:setup.warmup, value:0, start:1, end: setup.warmup, type:'warmup'});
@@ -66,12 +67,14 @@ function App($scope, localStorageService){
 
 	$scope.start = function(){
 		$scope.plan.count = 0;
+		$scope.plan.done = false;
 		$scope.plan.timer = setInterval(function(){
 			$scope.$apply(function(){
 				$scope.plan.count = $scope.plan.count + 1;
 				updateProgress();
 				if($scope.plan.count == $scope.plan.total){
 					clearInterval($scope.plan.timer);
+					$scope.plan.done = true;					
 					delete $scope.plan.timer;
 				}
 			});
@@ -83,6 +86,7 @@ function App($scope, localStorageService){
 		delete $scope.plan.timer;
 		$scope.plan.count = 0;
 		$scope.plan.current = null;
+		$scope.plan.done = false;
 		angular.forEach($scope.plan.progress, function(p){
 			p.value = 0;
 		});

@@ -1,22 +1,6 @@
 body{font-family:Verdana; font-size:11px;}
 input[type=number]{width: 3em;}
 
-
-/*
-.settings ul{
-	padding-left: 1.5em;
-	list-style-type: circle;
-	margin: 1em 0 0 0;
-}
-.settings li{
-	word-wrap: break-word;
-}
-.settings .remove, .settings .clear{
-	float: right;
-	text-align: right;
-}
-*/
-
 .settings{
 	margin-bottom: 1em;
 }
@@ -30,35 +14,34 @@ input[type=number]{width: 3em;}
 .pg-config{
 	flex:15;
 	-webkit-flex:15;
+	margin-right: 1em;
 }
 .pg-progress{
 	flex:10;
-	-webkit-flex: 10;
+	-webkit-flex: 15;
 }
 .pg-plan{
-	flex:25;
-	-webkit-flex: 25;
+	flex:55;
+	-webkit-flex: 55;
 	padding: 3px;
 	min-height: 500px;
-
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;
-	-webkit-box-pack: center;
-	-webkit-box-align: center;
-
-	display: -moz-box;
-	-moz-box-orient: horizontal;
-	-moz-box-pack: center;
-	-moz-box-align: center;
-
-	display: box;
-	box-orient: horizontal;
-	box-pack: center;
-	box-align: center;
+	margin-right: 1em;
+}
+.clear{
+	text-align: right;
+	margin-top: 1em;
 }
 .display{
 	padding: 4em;
-	line-height: 2.5em;
+	line-height: 4em;
+}
+.stage{
+	font-size: 2em;
+}
+.btn-start{
+	font-size: 70px;
+	width: 340px;
+	height: 165px;
 }
 
 .icon-remove-circle{
@@ -66,20 +49,13 @@ input[type=number]{width: 3em;}
 }
 .setting-btn{
 	padding-right: 5px;
+	margin-right: 5px;
 }
-
-
-.control{
-	text-align:center;
+.time{
+	font-size: 5em;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: white;
 }
-/*
-.control button{
-	font-size: 200%;
-}
-.render{
-}
-*/
-.time{font-size: 300%;}
 .warmup, .cooldown{ background-color: #CDCDCD;}
 .display{font-size: 2em; text-align:center;}
 .high{background-color: red;}

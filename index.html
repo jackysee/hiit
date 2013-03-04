@@ -2,7 +2,7 @@
 <html lang="en" ng-app="hiit">
 <head>
 	<meta charset="UTF-8">
-	<title>HIIT</title>
+	<title>HIIT Timer</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="style.css">
 	<script src="angular.js"></script>
@@ -13,7 +13,7 @@
 
 	<div class="navbar navbar-inverse navbar-static-top">
 		<div class="navbar-inner">
-			<a class="brand" href="#">HIIT</a>
+			<a class="brand" href="#">HIIT Timer</a>
 		</div>
 	</div>
 
@@ -22,31 +22,24 @@
 		<div class="pg-config">
 			<fieldset class="settings" ng-show="settings.length">
 				<legend class="settings-title">Saved settings</legend>
-				<button class="btn btn-small setting-btn" ng-repeat="s in settings" ng-click="load($index)">{{s.name}} <i class="icon-remove-circle" ng-click="remove($index)"></i></button>
-				<!--
-				<ul class="nav nav-list">
-					<li ng-repeat="s in settings">
-						<a href='#' ng-click="load($index)">
-							{{s.name}}
-						</a>
-						<a href="#" ng-click="remove($index)">
-							<i class="icon-minus-sign-right"></i>
-						</a>
-					</li>
-				</ul>
-				<div>
-					<button class="btn" ng-click="clearAll()">Clear all</button>
+				<button class="btn btn-small setting-btn" 
+					ng-repeat="s in settings" ng-click="load($index)">
+					{{s.name}} <i class="icon-remove-circle" ng-click="remove($index)"></i>
+				</button>
+
+				<div class="clear">
+					<button class="btn btn-link btn-clear" ng-click="clearAll()">Clear All</button>
 				</div>
-				-->
 			</fieldset>
 			<fieldset class="setup">
 				<legend>Setup</legend>
 				<div>
 					Warm up for <input type="number" size="3" min="0" ng-model="setup.warmup" />s<br>
-					Repeat <input type="number" size="3" ng-model="setup.repeat" min="0" /> intervals, for each interval:<br>
-					- do high intensity for <input type="number" size="3" min="0" ng-model="setup.high"/><br>
-					- do low intensity for <input type="number" size="3" min="0" ng-model="setup.low"/><br>
-					Cool down for <input type="number" size="3" min="0" ng-model="setup.cooldown"/><br>
+					Repeat <input type="number" size="3" ng-model="setup.repeat" min="0" /> intervals, <br>
+					For each interval:<br>
+					- do high intensity for <input type="number" size="3" min="0" ng-model="setup.high"/>s<br>
+					- do low intensity for <input type="number" size="3" min="0" ng-model="setup.low"/>s<br>
+					Cool down for <input type="number" size="3" min="0" ng-model="setup.cooldown"/>s<br>
 				</div>
 				<button class="btn" ng-click="save()">Save current settings</button>
 			</fieldset>
@@ -54,13 +47,19 @@
 
 		<div class="pg-plan" ng-show="plan.total>0">
 			<div class="display" ng-hide="plan.current">
-				<button class="btn" ng-click="start()" ng-disabled="plan.current">Start</button>
+				<button class="btn btn-start" ng-click="start()" ng-disabled="plan.current">Start</button>
 			</div>
-			<div class="display {{plan.current.type}}" ng-show="plan.current">
+			<div class="display {{plan.current.type}}" ng-show="!plan.done && plan.current">
 				<div class="stage">{{plan.current.title}}</div>
 				<div class="time">{{plan.current.value}}/{{plan.current.max}}s</div>
 				<div class="control">
 					<button class="btn" ng-click="clear()">Clear</button>
+				</div>
+			</div>
+			<div class="display" ng-show="plan.done">
+				<div class="time">Done!</div>
+				<div class="control">
+					<button class="btn" ng-click="start()">Restart</button>
 				</div>
 			</div>
 		</div>
