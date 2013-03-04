@@ -1,85 +1,68 @@
 function App($scope){
 
-	$scope.warmup = 180;
-	$scope.repeat = 8;
-	$scope.high = 30;
-	$scope.low = 10;
-	$scope.cooldown = 180;
-
-	$scope.getRepeat = function(){
-		var arr = [], repeat = $scope.repeat || 0;
-		for(var i=0; i<repeat; i++){
-			arr.push(i);
-		}
-		return arr;
+	$scope.setup = {
+		warmup: 180,
+		repeat: 8,
+		high: 10,
+		low: 10,
+		cooldown: 180
 	};
+
+	$scope.plan = {
+		count: 0, total:0,
+		progress: []
+	};
+
+	$scope.$watch('setup', function(setup){
+		var progress = [], total = 0;
+		progress.push({title:'Warmup', max:setup.warmup, value:0, start:1, end: setup.warmup, type:'warmup'});
+		total += setup.warmup;
+		for(var i=0; i<setup.repeat; i++){
+			progress.push({title:'High', max:setup.high, value:0, start:total+1, end:total+setup.high, type:'high'});
+			total += setup.high;
+			progress.push({title:'Low', max:setup.low, value:0, start:total+1, end:total+setup.low, type:'low'});
+			total += setup.low;
+		}
+		progress.push({title:'Cooldown', max:setup.cooldown, value:0, start:total+1, end:total+setup.cooldown, type:'cooldown'});
+		total += setup.cooldown;
+		$scope.plan = {count:0, total:total, progress:progress};
+	}, true);
+
+
 	$scope.start = function(){
-		setup();
-		$scope.timer = setInterval(function(){
+		$scope.plan.count = 0;
+		$scope.plan.timer = setInterval(function(){
 			$scope.$apply(function(){
-				$scope.count = $scope.count + 1;
-				$scope.current = getCurrent();
-				if($scope.count == $scope.total){
-					clearInterval($scope.timer);
+				$scope.plan.count = $scope.plan.count + 1;
+				updateProgress();
+				if($scope.plan.count == $scope.plan.total){
+					clearInterval($scope.plan.timer);
+					delete $scope.plan.timer;
 				}
 			});
 		}, 1000);
 	};
+
 	$scope.clear = function(){
-		clearInterval($scope.timer);
-		delete $scope.timer;
-		$scope.count = 0;
+		clearInterval($scope.plan.timer);
+		delete $scope.plan.timer;
+		$scope.plan.count = 0;
+		$scope.plan.current = null;
+		angular.forEach($scope.plan.progress, function(p){
+			p.value = 0;
+		});
 	};
 
-	function setup(){
-		$scope.total = $scope.warmup + $scope.cooldown + $scope.repeat*($scope.high + $scope.low);
-		$scope.count = 0;
-	}
-
-	$scope.getTotal = function(){
-		$scope.total = ($scope.warmup||0) + ($scope.cooldown||0) + ($scope.repeat||0)*(($scope.high||0) + ($scope.low||0));
-		return $scope.total > 0;
-	};
-
-	$scope.progress = function(field, index){
-		if(!$scope.timer) return 0;
-		if(!field) return $scope.count || 0;
-
-		if(field === "warmup"){
-			return Math.min($scope.warmup, $scope.count);
+	function updateProgress(){
+		var progress = $scope.plan.progress,
+			count = $scope.plan.count;
+		for(var i=0; i<progress.length; i++){
+			var p = progress[i];
+			if(p.start <=  count && count <= p.end){
+				$scope.plan.current = p;
+				p.value = count - p.start + 1;
+				break;
+			}
 		}
-		if(field === "cooldown"){
-			return Math.min($scope.cooldown, Math.max(0, $scope.count - $scope.warmup - $scope.repeat*($scope.high+$scope.low)));
-		}
-		if(field === "high"){
-			return Math.min($scope.high, Math.max(0, $scope.count - $scope.warmup - index*($scope.high + $scope.low)));
-		}
-		if(field == "low"){
-			return Math.min($scope.low, Math.max(0, $scope.count - $scope.warmup - index*($scope.high + $scope.low) - $scope.high));
-		}
-	};
-
-	function getCurrent(){
-		var count = $scope.count;
-		if(count <= $scope.warmup){
-			return {stage:'warmup', max:$scope.warmup, value:$scope.count, cssClass:'warmup'};
-		}
-		if(count > ($scope.warmup + $scope.repeat*($scope.high+$scope.low))){
-			return {stage:'cooldown', max:$scope.cooldown, value: $scope.progress('cooldown'), cssClass:'cooldown'};
-		}
-		var intervalStage = Math.ceil((count - $scope.warmup) / ($scope.high+$scope.low)) ;
-		var intervalCount = count - $scope.warmup - (intervalStage-1)*($scope.high + $scope.low);
-		var isHigh = intervalCount <= $scope.high;
-		return {
-			stage: 'Interval ' + (intervalStage) + " - " + (isHigh? "High Intensity":"Low Intensity"),
-			cssClass: isHigh? 'high':'low',
-			value: isHigh? intervalCount : intervalCount - $scope.high,
-			max: isHigh? $scope.high: $scope.low
-		};
-	}
-
-	function getNum(input){
-		var num = parseInt(input, 10);
-		return isNaN(num)? 0 : num;
 	}
 }

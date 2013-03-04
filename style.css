@@ -8,15 +8,21 @@ input[type=number]{width: 3em;}
 }
 .setup{
 	flex:1;
-	-webkit-flex: 1;
+	-webkit-flex: 25;
 }
 .progress{
 	flex:1;
-	-webkit-flex: 1;
+	-webkit-flex: 14;
 }
 .display{
 	flex-wrap: wrap;
 	-webkit-flex-wrap: wrap;
+}
+.control{
+	text-align:center;
+}
+.control button{
+	font-size: 200%;
 }
 .render{
 	line-height: 2em;

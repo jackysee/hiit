@@ -13,35 +13,34 @@
 
 		<fieldset class="setup">
 			<legend>Setup</legend>
-			Warmup for <input type="number" size="3" min="0" ng-model="warmup" />s<br>
-			Repeat <input type="number" size="3" ng-model="repeat" min="0" /> intervals, for each interval:<br>
-			- do high intensity for <input type="number" size="3" min="0" ng-model="high"/><br>
-			- do low intensity for <input type="number" size="3" min="0" ng-model="low"/><br>
-			Cool down for <input type="number" size="3" min="0" ng-model="cooldown"/>
+			Warmup for <input type="number" size="3" min="0" ng-model="setup.warmup" />s<br>
+			Repeat <input type="number" size="3" ng-model="setup.repeat" min="0" /> intervals, for each interval:<br>
+			- do high intensity for <input type="number" size="3" min="0" ng-model="setup.high"/><br>
+			- do low intensity for <input type="number" size="3" min="0" ng-model="setup.low"/><br>
+			Cool down for <input type="number" size="3" min="0" ng-model="setup.cooldown"/>
 		</fieldset>
-		<fieldset class="progress">
+		<fieldset class="progress" ng-show="plan.progress.length">
 			<legend>Progress</legend>
 			<div class="render">
-				<div ng-show="warmup">
-					Warmup: <progress value="{{progress('warmup')}}" max="{{warmup}}"></progress> [{{progress('warmup')}}/{{warmup}}]<br>
+				<span ng-repeat="p in plan.progress">
+					{{p.title}}: <progress value="{{p.value}}" max="{{p.max}}"></progress>
+					<br ng-show="$first || $last || $index%2==0"/>
+				</span>
+				<div>
+					Total time: {{plan.count}}/{{plan.total}}s
 				</div>
-				<div ng-repeat="i in getRepeat()">
-					High: <progress value="{{progress('high', $index)}}" max="{{high}}"></progress> [{{progress('high',$index)}}/{{high}}] |
-					Low: <progress value="{{progress('low', $index)}}" max="{{low}}"></progress> [{{progress('low',$index)}}/{{low}}]
-				</div>
-				<div ng-show="cooldown">
-					Cool down: <progress value="{{progress('cooldown')}}" max="{{cooldown}}"></progress> [{{progress('cooldown')}}/{{cooldown}}]
-				</div>
-			</div>
-			<div ng-show="getTotal()">
-				<button ng-click="start()">Start</button>
-				<button ng-click="clear()">Clear</button>
 			</div>
 		</fieldset>
 	</div>
-	<div class="display {{current.cssClass}}" ng-show="current.stage">
-		<div class="stage">{{current.stage}}</div>
-		<div class="time">{{current.value}}/{{current.max}}s</div>
+	<div class="plan">
+		<div class="display {{plan.current.type}}" ng-show="plan.current">
+			<div class="stage">{{plan.current.title}}</div>
+			<div class="time">{{plan.current.value}}/{{plan.current.max}}s</div>
+		</div>
+		<div class="control">
+			<button ng-click="start()" ng-disabled="plan.current">Start</button>
+			<button ng-click="clear()">Clear</button>
+		</div>
 	</div>
 </body>
 </html>
