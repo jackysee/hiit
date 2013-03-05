@@ -50,7 +50,7 @@
 				<button class="btn btn-start" ng-click="start()" ng-disabled="plan.current">Start</button>
 			</div>
 			<div class="display {{plan.current.type}}" ng-show="!plan.done && plan.current">
-				<div class="stage">{{plan.current.title}}</div>
+				<div class="stage">{{plan.current.title | uppercase}}</div>
 				<div class="time">{{plan.current.value}}/{{plan.current.max}}s</div>
 				<div class="control">
 					<button class="btn" ng-click="clear()">Clear</button>

@@ -182,6 +182,18 @@ describe("App Controller", function(){
 			expect(scope.settings.length).toEqual(1);
 			expect(ls.add).toHaveBeenCalledWith('settings', JSON.stringify(scope.settings));
 		}));
+
+		it("should clear all", inject(function($controller) {
+			ls.get.andReturn(JSON.stringify([
+				{name:'1', setup:{warmup:1,repeat:1,high:1,low:1,cooldown:1}},
+				{name:'2', setup:{warmup:2,repeat:2,high:2,low:2,cooldown:2}}
+			]));
+			$controller(App, {$scope:scope, localStorageService: ls});
+			expect(scope.settings.length).toEqual(2);
+			scope.clearAll();
+			expect(scope.settings.length).toEqual(0);
+			expect(ls.remove).toHaveBeenCalledWith('settings');
+		}));
 	});
 
 
