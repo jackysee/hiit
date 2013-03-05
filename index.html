@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 	<title>HIIT Timer</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="style.css">
-	<script src="angular.js"></script>
-	<script src="localStorageModule.js"></script>
-	<script src="app.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/angular.js"></script>
+	<script src="js/localStorageModule.js"></script>
+	<script src="js/app.js"></script>
 </head>
 <body ng-controller="App">
 
@@ -20,17 +20,6 @@
 	<div class='pg-container'>
 
 		<div class="pg-config">
-			<fieldset class="settings" ng-show="settings.length">
-				<legend class="settings-title">Saved settings</legend>
-				<button class="btn btn-small setting-btn" 
-					ng-repeat="s in settings" ng-click="load($index)">
-					{{s.name}} <i class="icon-remove-circle" ng-click="remove($index)"></i>
-				</button>
-
-				<div class="clear">
-					<button class="btn btn-link btn-clear" ng-click="clearAll()">Clear All</button>
-				</div>
-			</fieldset>
 			<fieldset class="setup">
 				<legend>Setup</legend>
 				<div>
@@ -42,6 +31,17 @@
 					Cool down for <input type="number" size="3" min="0" ng-model="setup.cooldown"/>s<br>
 				</div>
 				<button class="btn" ng-click="save()">Save current settings</button>
+			</fieldset>
+			<fieldset class="settings" ng-show="settings.length">
+				<legend class="settings-title">Saved settings</legend>
+				<button class="btn btn-small setting-btn"
+					ng-repeat="s in settings" ng-click="load($index)">
+					{{s.name}} <i class="icon-remove-circle" ng-click="remove($index)"></i>
+				</button>
+
+				<div class="clear">
+					<button class="btn btn-link btn-clear" ng-click="clearAll()">Clear All</button>
+				</div>
 			</fieldset>
 		</div>
 
@@ -68,9 +68,12 @@
 			<fieldset ng-show="plan.progress.length">
 				<legend>Progress</legend>
 				<div class="render">
-					<span ng-repeat="p in plan.progress">
-						{{p.title}}: <progress value="{{p.value}}" max="{{p.max}}"></progress><br>
-					</span>
+					<table>
+						<tr ng-repeat="p in plan.progress">
+							<td nowrap>{{p.title}}</td>
+							<td><progress value="{{p.value}}" max="{{p.max}}"></progress></td>
+						</tr>
+					</table>
 					<div>
 						Total time: {{plan.count}}/{{plan.total}}s
 					</div>
