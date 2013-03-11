@@ -1,15 +1,18 @@
 describe("App Controller", function(){
 
-	var scope, ls;
+	var scope, ls, compile;
 
-	beforeEach(inject(function($controller, $rootScope) {
+	beforeEach(inject(function($controller, $rootScope, $compile) {
 		scope = $rootScope.$new();
+		scope.ctx = "../";
 		ls = {
 			get: jasmine.createSpy('get').andReturn(null),
 			add: jasmine.createSpy('add'),
 			remove: jasmine.createSpy('remove')
 		};
-		$controller(App, {$scope:scope, localStorageService: ls})
+		$controller(App, {$scope:scope, localStorageService: ls});
+		scope.alarm.muted = true;
+		compile = $compile;
 	}));
 
 	it("should be defined", function() {
@@ -99,6 +102,8 @@ describe("App Controller", function(){
 	});
 
 	it("should clear", function() {
+		scope.alarm.muted = true;
+		spyOn(scope.alarm, 'pause');
 		jasmine.Clock.useMock();
 		scope.setup = {
 			warmup: 2, repeat: 2,
@@ -115,6 +120,22 @@ describe("App Controller", function(){
 		angular.forEach(scope.plan.progress, function(p){
 			expect(p.value).toEqual(0);
 		});
+		expect(scope.alarm.pause).toHaveBeenCalled();
+	});
+
+	it("should play sound", function() {
+		scope.alarm.muted = true;
+		spyOn(scope.alarm, 'play');
+		//spyOn(scope.alarm, 'pause');
+		jasmine.Clock.useMock();
+		scope.setup = {
+			warmup: 10, repeat: 2,
+			high: 2, low: 2, cooldown: 2
+		};
+		scope.$digest();
+		scope.start();
+		jasmine.Clock.tick(10001);
+		expect(scope.alarm.play).toHaveBeenCalled();
 	});
 
 	describe("local storage", function() {
@@ -122,6 +143,7 @@ describe("App Controller", function(){
 		var scope, ls;
 		beforeEach(inject(function($rootScope) {
 			scope = $rootScope.$new();
+			scope.ctx = "../";
 			ls = {
 				get: jasmine.createSpy('get').andReturn(null),
 				add: jasmine.createSpy('add'),
@@ -196,7 +218,37 @@ describe("App Controller", function(){
 		}));
 	});
 
+	// describe("audioDirective", function(){
 
+	// 	var scope;
 
+	// 	beforeEach(inject(function($rootScope){
+	// 		scope = $rootScope;
+	// 	}));
+
+	// 	it("should compile directive for alarm", function() {
+	// 		var $el = angular.element("<audio alarm='alarm'></audio>");
+	// 		compile($el)(scope);
+	// 		var elem = $el[0];
+	// 		scope.$digest();
+	// 		console.log(elem);
+
+	// 		spyOn(elem, 'play');
+	// 		spyOn(elem, 'pause');
+
+	// 		scope.$apply(function(){
+	// 			scope.alarm = "on";
+	// 			expect(elem.play).toHaveBeenCalled();
+	// 			expect(elem.pause).not.toHaveBeenCalled();
+	// 		});
+
+	// 		scope.$apply(function(){
+	// 			scope.alarm = "off";
+	// 			expect(elem.pause).toHaveBeenCalled();
+	// 			expect(elem.currentTime).toEqual(0);
+	// 		});
+	// 	});
+
+	// });
 
 });

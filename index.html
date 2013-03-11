@@ -46,6 +46,9 @@
 		</div>
 
 		<div class="pg-plan" ng-show="plan.total>0">
+
+			<audio src="alarm.mp3" id="sound" preload /></audio>
+
 			<div class="display" ng-hide="plan.current">
 				<button class="btn btn-start" ng-click="start()" ng-disabled="plan.current">Start</button>
 			</div>

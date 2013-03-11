@@ -87,10 +87,13 @@ function App($scope, localStorageService){
 		$scope.plan.count = 0;
 		$scope.plan.current = null;
 		$scope.plan.done = false;
+		$scope.alarm.pause();
 		angular.forEach($scope.plan.progress, function(p){
 			p.value = 0;
 		});
 	};
+
+	$scope.alarm = new Audio(($scope.ctx || '') + "alarm.mp3");
 
 	function updateProgress(){
 		var progress = $scope.plan.progress,
@@ -98,10 +101,38 @@ function App($scope, localStorageService){
 		for(var i=0; i<progress.length; i++){
 			var p = progress[i];
 			if(p.start <=  count && count <= p.end){
+				if(p.start === count){
+					playSound();
+				}
 				$scope.plan.current = p;
 				p.value = count - p.start + 1;
 				break;
 			}
 		}
 	}
+
+	function playSound(){
+		$scope.currentTime = 0;
+		$scope.alarm.play();
+	}
 }
+
+/*
+angular.module("hiit", []).directive("alarm", function(){
+	console.log('call alarm factory');
+	return function(scope, elem, attr){
+		console.log('directive', attr);
+		var flag = attr.alarm;
+		scope.$watch(attr.alarm, function(value){
+			console.log('enter watch', flag);
+			if(value === 'on'){
+				elem[0].play();
+			}
+			if(value === 'off'){
+				elem[0].pause();
+				elem[0].currentTime = 0;
+			}
+		});
+	};
+});
+*/
