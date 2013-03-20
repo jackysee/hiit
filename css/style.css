@@ -73,9 +73,16 @@ progress::-moz-progress-bar{
 .icon-remove-circle{
 	margin-left: 10px;
 }
-.setting-btn{
+.btn-setting{
 	padding-right: 5px;
 	margin-right: 5px;
+}
+.btn-restart{
+	font-size: 33px;
+	height: 56px;
+}
+.control{
+	margin: 10px;
 }
 .time{
 	font-size: 5em;

@@ -34,7 +34,7 @@
 			</fieldset>
 			<fieldset class="settings" ng-show="settings.length">
 				<legend class="settings-title">Saved settings</legend>
-				<button class="btn btn-small setting-btn"
+				<button class="btn btn-small btn-setting"
 					ng-repeat="s in settings" ng-click="load($index)">
 					{{s.name}} <i class="icon-remove-circle" ng-click="remove($index)"></i>
 				</button>
@@ -62,7 +62,7 @@
 			<div class="display" ng-show="plan.done">
 				<div class="time">Done!</div>
 				<div class="control">
-					<button class="btn" ng-click="start()">Restart</button>
+					<button class="btn btn-restart" ng-click="start()">Restart</button>
 				</div>
 			</div>
 		</div>
