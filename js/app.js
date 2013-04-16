@@ -73,6 +73,7 @@ function App($scope, localStorageService){
 				$scope.plan.count = $scope.plan.count + 1;
 				updateProgress();
 				if($scope.plan.count == $scope.plan.total){
+					playSound();
 					clearInterval($scope.plan.timer);
 					$scope.plan.done = true;
 					delete $scope.plan.timer;

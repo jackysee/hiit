@@ -138,6 +138,22 @@ describe("App Controller", function(){
 		expect(scope.alarm.play).toHaveBeenCalled();
 	});
 
+	it("should play last sound", function() {
+		scope.alarm.muted = true;
+		spyOn(scope.alarm, 'play');
+		jasmine.Clock.useMock();
+		scope.setup = {
+			warmup:1, repeat:1,
+			high:1, low:1, cooldown:1
+		};
+		scope.$digest();
+		console.log(scope.plan.total);
+		scope.start();
+		scope.plan.count = 3;
+		jasmine.Clock.tick(1000);
+		expect(scope.alarm.play.calls.length).toEqual(2);
+	});
+
 	describe("local storage", function() {
 
 		var scope, ls;
