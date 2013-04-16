@@ -147,7 +147,6 @@ describe("App Controller", function(){
 			high:1, low:1, cooldown:1
 		};
 		scope.$digest();
-		console.log(scope.plan.total);
 		scope.start();
 		scope.plan.count = 3;
 		jasmine.Clock.tick(1000);
