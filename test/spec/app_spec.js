@@ -153,6 +153,19 @@ describe("App Controller", function(){
 		expect(scope.alarm.play.calls.length).toEqual(2);
 	});
 
+	it("should restart", function(){
+		spyOn(scope, 'start');
+		spyOn(scope, 'clear');
+		scope.setUp = {
+			warmup:1, repeat:1,
+			high:1, low:1, cooldown:1
+		}
+		scope.$digest();
+		scope.restart();
+		expect(scope.clear).toHaveBeenCalled();
+		expect(scope.start).toHaveBeenCalled();
+	});
+
 	describe("local storage", function() {
 
 		var scope, ls;

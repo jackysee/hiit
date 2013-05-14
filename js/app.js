@@ -94,6 +94,11 @@ function App($scope, localStorageService){
 		});
 	};
 
+	$scope.restart = function(){
+		$scope.clear();
+		$scope.start();
+	}
+
 	$scope.alarm = new Audio(($scope.ctx || '') + "alarm.mp3");
 
 	function updateProgress(){
