@@ -25,7 +25,7 @@ progress::-moz-progress-bar{
 	flex-direction: row;
 	-webkit-direction: row;
 	-moz-flex-direction: row;
-	margin: 1em;
+	margin-top: 50px;
 }
 .pg-config{
 	-webkit-box-flex: 15;
@@ -34,6 +34,16 @@ progress::-moz-progress-bar{
 	-ms-flex:15;
 	flex:15;
 	margin-right: 1em;
+	text-align: right;
+}
+.pg-config label{
+	float: left;
+	padding-top: 0.9em;
+	font-size: 1.1em;
+}
+.pg-config input{
+	font-size: 2em;
+	width: 4em;
 }
 .pg-progress{
 	-webkit-box-flex: 15;
@@ -41,6 +51,12 @@ progress::-moz-progress-bar{
 	-webkit-flex:15;
 	-ms-flex:15;
 	flex:15;
+}
+.pg-progress .progress{
+	margin-bottom: 8px;
+}
+.pg-progress .progress[aria-valuenow=0] .progress-bar{
+	color: #888;
 }
 .pg-plan{
 	flex:55;
@@ -88,8 +104,14 @@ progress::-moz-progress-bar{
 	font-size: 5em;
 	-webkit-text-stroke-width: 1px;
 	-webkit-text-stroke-color: white;
+	text-shadow:
+	    1px 1px 0 #FFF,
+	   -1px -1px 0 #FFF,
+	    1px -1px 0 #FFF,
+	   -1px  1px 0 #FFF,
+	    1px  1px 0 #FFF;
 }
-.warmup, .cooldown{ background-color: #CDCDCD;}
+.warmup, .cooldown{ background-color: #DDDDDD;}
 .display{font-size: 2em; text-align:center;}
-.high{background-color: red;}
-.low{background-color: green;}
+.high{background-color: #FF4136;}
+.low{background-color: #2ECC40;}

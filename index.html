@@ -11,13 +11,17 @@
 </head>
 <body ng-controller="App">
 
-	<div class="navbar navbar-inverse navbar-static-top">
-		<div class="navbar-inner">
-			<a class="brand" href="#">HIIT Timer</a>
-			<ul class="nav">
-				<li><a href="http://greatist.com/fitness/complete-guide-interval-training-infographic" title="Infographics introducting HIIT" target="_blank">What is HIIT?</a></li>
-				<li><a href="https://github.com/jackysee/hiit">Github</a></li>
-			</ul>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">HIIT Timer</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="http://greatist.com/fitness/complete-guide-interval-training-infographic" title="Infographics introducting HIIT" target="_blank">What is HIIT?</a></li>
+					<li><a href="https://github.com/jackysee/hiit">Github</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 
@@ -26,14 +30,28 @@
 		<div class="pg-config">
 			<fieldset class="setup">
 				<legend>Setup</legend>
-				<div>
-					Warm up for <input type="number" size="3" min="0" ng-model="setup.warmup" />s<br>
-					Repeat <input type="number" size="3" ng-model="setup.repeat" min="0" /> intervals, <br>
-					For each interval:<br>
-					- do high intensity for <input type="number" size="3" min="0" ng-model="setup.high"/>s<br>
-					- do low intensity for <input type="number" size="3" min="0" ng-model="setup.low"/>s<br>
-					Cool down for <input type="number" size="3" min="0" ng-model="setup.cooldown"/>s<br>
-				</div>
+				<ul class="list-group">
+					<li class="list-group-item">
+						<label>Warmup</label>
+						<input type="number" size="3" min="0" ng-model="setup.warmup" />
+					</li>
+					<li class="list-group-item">
+						<label>Repeat</label>
+						<input type="number" size="3" ng-model="setup.repeat" min="0" />
+					</li>
+					<li class="list-group-item">
+						<label>High Intensity</label>
+						<input type="number" size="3" min="0" ng-model="setup.high"/>
+					</li>
+					<li class="list-group-item">
+						<label>Low Intensity</label>
+						<input type="number" size="3" min="0" ng-model="setup.low"/>
+					</li>
+					<li class="list-group-item">
+						<label>Cool Down</label>
+						<input type="number" size="3" min="0" ng-model="setup.cooldown"/>
+					</li>
+				</ul>
 				<button class="btn" ng-click="save()">Save current settings</button>
 			</fieldset>
 			<fieldset class="settings" ng-show="settings.length">
@@ -44,7 +62,7 @@
 				</button>
 
 				<div class="clear">
-					<button class="btn btn-link btn-clear" ng-click="clearAll()">Clear All</button>
+					<button class="btn btn-link btn-clear btn-lg" ng-click="clearAll()">Clear All</button>
 				</div>
 			</fieldset>
 		</div>
@@ -75,12 +93,13 @@
 			<fieldset ng-show="plan.progress.length">
 				<legend>Progress</legend>
 				<div class="render">
-					<table>
-						<tr ng-repeat="p in plan.progress">
-							<td nowrap>{{p.title}}</td>
-							<td><progress value="{{p.value}}" max="{{p.max}}"></progress></td>
-						</tr>
-					</table>
+					<div ng-repeat="p in plan.progress">
+						<div class="progress" aria-valuenow="{{p.value}}">
+							<div class="progress-bar" ng-style="{width:((p.value)*100/(p.max))+'%'}">
+								{{p.title}}
+							</div>
+						</div>
+					</div>
 					<div>
 						Total time: {{plan.count}}/{{plan.total}}s
 					</div>
