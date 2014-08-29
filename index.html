@@ -11,7 +11,7 @@
 </head>
 <body ng-controller="App">
 
-	<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">HIIT Timer</a>
@@ -28,8 +28,8 @@
 	<div class='pg-container'>
 
 		<div class="pg-config">
-			<fieldset class="setup">
-				<legend>Setup</legend>
+			<div class="setup">
+				<h3>Setup</h3>
 				<ul class="list-group">
 					<li class="list-group-item">
 						<label>Warmup</label>
@@ -53,18 +53,24 @@
 					</li>
 				</ul>
 				<button class="btn" ng-click="save()">Save current settings</button>
-			</fieldset>
-			<fieldset class="settings" ng-show="settings.length">
-				<legend class="settings-title">Saved settings</legend>
-				<button class="btn btn-small btn-setting"
-					ng-repeat="s in settings" ng-click="load($index)">
-					{{s.name}} <i class="icon-remove-circle" ng-click="remove($index)"></i>
+			</div>
+			<div class="settings" ng-show="settings.length">
+				<h3 class="settings-title">Saved settings</h3>
+				<div class="btn-group btn-group-sm btn-setting" ng-repeat="s in settings">
+					<button class="btn btn-default" ng-click="load($index)">
+						{{s.name}}
+					</button>
+					<button class="btn btn-default" ng-click="remove($index)">
+						<span class="glyphicon glyphicon-remove-circle"></span>
+					</button>
 				</button>
+
+				</div>
 
 				<div class="clear">
 					<button class="btn btn-link btn-clear btn-lg" ng-click="clearAll()">Clear All</button>
 				</div>
-			</fieldset>
+			</div>
 		</div>
 
 		<div class="pg-plan" ng-show="plan.total>0">
@@ -90,12 +96,12 @@
 		</div>
 
 		<div class="pg-progress">
-			<fieldset ng-show="plan.progress.length">
-				<legend>Progress</legend>
+			<div ng-show="plan.progress.length">
+				<h3>Progress</h3>
 				<div class="render">
 					<div ng-repeat="p in plan.progress">
 						<div class="progress" aria-valuenow="{{p.value}}">
-							<div class="progress-bar" ng-style="{width:((p.value)*100/(p.max))+'%'}">
+							<div class="progress-bar progress-bar-success" ng-style="{width:((p.value)*100/(p.max))+'%'}">
 								{{p.title}}
 							</div>
 						</div>
@@ -104,7 +110,7 @@
 						Total time: {{plan.count}}/{{plan.total}}s
 					</div>
 				</div>
-			</fieldset>
+			</div>
 		</div>
 	</div>
 </body>
