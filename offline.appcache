@@ -1,0 +1,9 @@
+CACHE MANIFEST
+./bootstrap/css/bootstrap.min.css
+./css/style.css
+./js/angular.js
+./js/localStorageModule.js
+./js/app.js
+
+NETWORK:
+*

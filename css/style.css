@@ -36,10 +36,10 @@ progress::-moz-progress-bar{
 	padding-left: 2em;
 }
 .pg-config .list-group{
-	text-align: right;
+	text-align: left;
 }
 .pg-config label{
-	float: left;
+	display: block;
 	padding-top: 0.9em;
 	font-size: 1.1em;
 }
