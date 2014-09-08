@@ -4,6 +4,7 @@ CACHE MANIFEST
 ./js/angular.js
 ./js/localStorageModule.js
 ./js/app.js
+./alarm.mp3
 
 NETWORK:
 *
