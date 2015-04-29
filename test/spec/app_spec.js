@@ -1,13 +1,18 @@
 describe("App Controller", function(){
 
-	var scope, ls, compile;
+	var scope, ls, compile, noSleep;
+
+	beforeEach(module('hiit', function($provide){
+		noSleep = jasmine.createSpyObj('noSleep', ['enable', 'disable']);
+		$provide.value('noSleep', noSleep);
+	}));
 
 	beforeEach(inject(function($controller, $rootScope, $compile) {
 		scope = $rootScope.$new();
 		scope.ctx = "../";
 		ls = {
 			get: jasmine.createSpy('get').andReturn(null),
-			add: jasmine.createSpy('add'),
+			set: jasmine.createSpy('set'),
 			remove: jasmine.createSpy('remove')
 		};
 		$controller(App, {$scope:scope, localStorageService: ls});
@@ -79,6 +84,7 @@ describe("App Controller", function(){
 		};
 		scope.$digest();
 		scope.start();
+		expect(noSleep.enable).toHaveBeenCalled();
 		expect(scope.plan.count).toEqual(0);
 		expect(scope.plan.done).toEqual(false);
 		expect(scope.plan.timer).toBeDefined();
@@ -111,8 +117,10 @@ describe("App Controller", function(){
 		};
 		scope.$digest();
 		scope.start();
+		expect(noSleep.enable).toHaveBeenCalled();
 		jasmine.Clock.tick(1000);
 		scope.clear();
+		expect(noSleep.disable).toHaveBeenCalled();
 		expect(scope.plan.count).toEqual(0);
 		expect(scope.plan.current).toEqual(null);
 		expect(scope.plan.done).toEqual(false);
@@ -159,7 +167,7 @@ describe("App Controller", function(){
 		scope.setUp = {
 			warmup:1, repeat:1,
 			high:1, low:1, cooldown:1
-		}
+		};
 		scope.$digest();
 		scope.restart();
 		expect(scope.clear).toHaveBeenCalled();
@@ -174,7 +182,7 @@ describe("App Controller", function(){
 			scope.ctx = "../";
 			ls = {
 				get: jasmine.createSpy('get').andReturn(null),
-				add: jasmine.createSpy('add'),
+				set: jasmine.createSpy('set'),
 				remove: jasmine.createSpy('remove')
 			};
 			spyOn(window, 'alert');
@@ -187,7 +195,7 @@ describe("App Controller", function(){
 				setup:{warmup: 2, repeat:2, high: 2, low:2, cooldown:2}
 			};
 			ls.get.andReturn(JSON.stringify([s]));
-			$controller(App, {$scope:scope, localStorageService: ls})
+			$controller(App, {$scope:scope, localStorageService: ls});
 			expect(scope.settings.length).toEqual(1);
 			expect(scope.settings[0].name).toEqual('hi');
 			expect(scope.settings[0].setup).toEqual(s.setup);
@@ -202,7 +210,7 @@ describe("App Controller", function(){
 			expect(scope.settings.length).toEqual(1);
 			expect(scope.settings[0].name).toEqual("test name");
 			expect(scope.settings[0].setup).toEqual(scope.setup);
-			expect(ls.add).toHaveBeenCalledWith('settings', JSON.stringify(scope.settings));
+			expect(ls.set).toHaveBeenCalledWith('settings', JSON.stringify(scope.settings));
 		}));
 
 		it("should not save if no name is provided", inject(function($controller) {
@@ -230,7 +238,7 @@ describe("App Controller", function(){
 			$controller(App, {$scope:scope, localStorageService: ls});
 			scope.remove(1);
 			expect(scope.settings.length).toEqual(1);
-			expect(ls.add).toHaveBeenCalledWith('settings', JSON.stringify(scope.settings));
+			expect(ls.set).toHaveBeenCalledWith('settings', JSON.stringify(scope.settings));
 		}));
 
 		it("should clear all", inject(function($controller) {

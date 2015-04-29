@@ -1,4 +1,4 @@
-function App($scope, localStorageService){
+function App($scope, localStorageService, noSleep){
 
 	$scope.settings = JSON.parse(localStorageService.get('settings')) || [];
 
@@ -22,7 +22,7 @@ function App($scope, localStorageService){
 			return;
 		}
 		$scope.settings.push({name:name, setup: angular.copy($scope.setup)});
-		localStorageService.add("settings", JSON.stringify($scope.settings));
+		localStorageService.set("settings", JSON.stringify($scope.settings));
 	};
 
 	$scope.load = function(index){
@@ -37,7 +37,7 @@ function App($scope, localStorageService){
 			}
 		});
 		$scope.settings = newSettings;
-		localStorageService.add("settings", JSON.stringify($scope.settings));
+		localStorageService.set("settings", JSON.stringify($scope.settings));
 	};
 
 	$scope.clearAll = function(){
@@ -66,6 +66,7 @@ function App($scope, localStorageService){
 	}, true);
 
 	$scope.start = function(){
+		noSleep.enable();
 		$scope.plan.count = 0;
 		$scope.plan.done = false;
 		$scope.plan.timer = setInterval(function(){
@@ -83,6 +84,7 @@ function App($scope, localStorageService){
 	};
 
 	$scope.clear = function(){
+		noSleep.disable();
 		clearInterval($scope.plan.timer);
 		delete $scope.plan.timer;
 		$scope.plan.count = 0;
@@ -97,7 +99,7 @@ function App($scope, localStorageService){
 	$scope.restart = function(){
 		$scope.clear();
 		$scope.start();
-	}
+	};
 
 	$scope.alarm = new Audio(($scope.ctx || '') + "alarm.mp3");
 
@@ -123,22 +125,14 @@ function App($scope, localStorageService){
 	}
 }
 
-/*
-angular.module("hiit", []).directive("alarm", function(){
-	console.log('call alarm factory');
-	return function(scope, elem, attr){
-		console.log('directive', attr);
-		var flag = attr.alarm;
-		scope.$watch(attr.alarm, function(value){
-			console.log('enter watch', flag);
-			if(value === 'on'){
-				elem[0].play();
-			}
-			if(value === 'off'){
-				elem[0].pause();
-				elem[0].currentTime = 0;
-			}
-		});
+angular.module("hiit", ['LocalStorageModule']);
+
+angular.module("hiit").provider('noSleep', function(){
+	var noSleep;
+	this.$get = function(){
+		if(!noSleep){
+			noSleep = new NoSleep();
+		}
+		return noSleep;
 	};
 });
-*/
