@@ -2,7 +2,8 @@ CACHE MANIFEST
 ./bootstrap/css/bootstrap.min.css
 ./css/style.css
 ./js/angular.js
-./js/localStorageModule.js
+./js/NoSleep.min.js
+./js/angular-local-storage.min.js
 ./js/app.js
 ./alarm.mp3
 
