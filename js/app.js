@@ -1,6 +1,6 @@
 function App($scope, localStorageService, noSleep){
 
-	$scope.settings = JSON.parse(localStorageService.get('settings')) || [];
+	$scope.settings = localStorageService.get('settings') || [];
 
 	$scope.setup = $scope.settings[0]? $scope.settings[0].setup : {
 		warmup: 180,
@@ -22,7 +22,7 @@ function App($scope, localStorageService, noSleep){
 			return;
 		}
 		$scope.settings.push({name:name, setup: angular.copy($scope.setup)});
-		localStorageService.set("settings", JSON.stringify($scope.settings));
+		localStorageService.set("settings", $scope.settings);
 	};
 
 	$scope.load = function(index){
@@ -37,7 +37,7 @@ function App($scope, localStorageService, noSleep){
 			}
 		});
 		$scope.settings = newSettings;
-		localStorageService.set("settings", JSON.stringify($scope.settings));
+		localStorageService.set("settings", $scope.settings);
 	};
 
 	$scope.clearAll = function(){

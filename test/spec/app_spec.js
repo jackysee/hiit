@@ -194,7 +194,7 @@ describe("App Controller", function(){
 				name:'hi',
 				setup:{warmup: 2, repeat:2, high: 2, low:2, cooldown:2}
 			};
-			ls.get.andReturn(JSON.stringify([s]));
+			ls.get.andReturn([s]);
 			$controller(App, {$scope:scope, localStorageService: ls});
 			expect(scope.settings.length).toEqual(1);
 			expect(scope.settings[0].name).toEqual('hi');
@@ -210,7 +210,7 @@ describe("App Controller", function(){
 			expect(scope.settings.length).toEqual(1);
 			expect(scope.settings[0].name).toEqual("test name");
 			expect(scope.settings[0].setup).toEqual(scope.setup);
-			expect(ls.set).toHaveBeenCalledWith('settings', JSON.stringify(scope.settings));
+			expect(ls.set).toHaveBeenCalledWith('settings', scope.settings);
 		}));
 
 		it("should not save if no name is provided", inject(function($controller) {
@@ -221,31 +221,31 @@ describe("App Controller", function(){
 		}));
 
 		it("should load by index", inject(function($controller) {
-			ls.get.andReturn(JSON.stringify([
+			ls.get.andReturn([
 				{name:'1', setup:{warmup:1,repeat:1,high:1,low:1,cooldown:1}},
 				{name:'2', setup:{warmup:2,repeat:2,high:2,low:2,cooldown:2}}
-			]));
+			]);
 			$controller(App, {$scope:scope, localStorageService: ls});
 			scope.load(1);
 			expect(scope.setup.warmup).toEqual(2);
 		}));
 
 		it("should remove by index", inject(function($controller) {
-			ls.get.andReturn(JSON.stringify([
+			ls.get.andReturn([
 				{name:'1', setup:{warmup:1,repeat:1,high:1,low:1,cooldown:1}},
 				{name:'2', setup:{warmup:2,repeat:2,high:2,low:2,cooldown:2}}
-			]));
+			]);
 			$controller(App, {$scope:scope, localStorageService: ls});
 			scope.remove(1);
 			expect(scope.settings.length).toEqual(1);
-			expect(ls.set).toHaveBeenCalledWith('settings', JSON.stringify(scope.settings));
+			expect(ls.set).toHaveBeenCalledWith('settings', scope.settings);
 		}));
 
 		it("should clear all", inject(function($controller) {
-			ls.get.andReturn(JSON.stringify([
+			ls.get.andReturn([
 				{name:'1', setup:{warmup:1,repeat:1,high:1,low:1,cooldown:1}},
 				{name:'2', setup:{warmup:2,repeat:2,high:2,low:2,cooldown:2}}
-			]));
+			]);
 			$controller(App, {$scope:scope, localStorageService: ls});
 			expect(scope.settings.length).toEqual(2);
 			scope.clearAll();
